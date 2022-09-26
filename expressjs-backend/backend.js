@@ -21,6 +21,18 @@ app.get('/users', (req, res) => {
     }
 });
 
+app.delete('/users', (req, res) => {
+    const id = req.query.id;
+    if(id != undefined){
+        let result = removeUserByID(id);
+        res.send(result);
+    }else{
+        res.send(users);
+    }
+    
+});
+
+
 app.get('/users/:id', (req, res) => {
     const id = req.params['id']; //or req.params.id
     let result = findUserById(id);
@@ -32,7 +44,12 @@ app.get('/users/:id', (req, res) => {
     }
 });
 
+
 //HELPER FUNCTIONS
+
+function removeUserByID(id){
+    return users['users_list'].filter( (user) => !(user['name'] === id)); 
+}
 
 function findUserById(id) {
     return users['users_list'].find( (user) => user['id'] === id); // or line below
