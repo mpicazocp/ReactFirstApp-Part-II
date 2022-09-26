@@ -5,13 +5,15 @@ const port = 5000;
 app.use(express.json());
 
 //GET REQUESTS
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 
 app.get('/users', (req, res) => {
     const name = req.query.name;
-    if (name != undefined){
+    const job = req.query.job;
+    if((name != undefined) && (job != undefined)){
+        let result = findUserByNameAndJob(name, job);
+        res.send(result);
+    }
+    else if (name != undefined){
         let result = findUserByName(name);
         result = {users_list: result};
         res.send(result);
@@ -46,6 +48,9 @@ app.get('/users/:id', (req, res) => {
 
 
 //HELPER FUNCTIONS
+function findUserByNameAndJob(name, job){
+    return users['users_list'].filter( ((user) => user['name'] === name) && ((user)=> user['job'] === job));
+}
 
 function removeUserByID(id){
     return users['users_list'].filter( (user) => !(user['name'] === id)); 
