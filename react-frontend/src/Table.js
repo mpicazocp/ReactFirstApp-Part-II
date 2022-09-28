@@ -42,13 +42,13 @@ function TableBody(props) {
   }
   
   
-  function Table(props) {
-      return (
-        <table>
-          <TableHeader />
-          <TableBody characterData={props.characterData} />
-        </table>
-      );
+  function Table (props) {
+    return (
+      <table>
+        <TableHeader />
+        <TableBody characterData={props.characterData} removeCharacter={props.removeCharacter} />
+      </table>
+    );
   }
 
 
