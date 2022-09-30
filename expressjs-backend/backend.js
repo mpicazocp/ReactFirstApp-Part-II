@@ -71,8 +71,9 @@ const findUserByName = (name) => {
 //POST 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
+    userToAdd.id = IDGen();
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).end();
 });
 
 function addUser(user){
@@ -83,6 +84,10 @@ function addUser(user){
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 }); 
+
+function IDGen(){
+    return Math.floor(Math.random() * 101);
+}
 
 //USERs struct
 const users = { 
