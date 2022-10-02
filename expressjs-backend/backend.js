@@ -28,11 +28,12 @@ app.get('/users', (req, res) => {
 
 app.delete('/users', (req, res) => {
     const id = req.query.id;
-    if(id != undefined){
-        let result = removeUserByID(id);
-        res.send(result);
-    }else{
-        res.send(users);
+    let result = removeUserByID(id);
+    if( id == undefined || result.length == 0 || result == undefined) {
+        res.status(404).send('Resource not found.');
+    } else if(id != undefined){
+        deleteUser(result);
+        res.status(204).end();
     }
     
 });
@@ -67,6 +68,10 @@ function findUserById(id) {
 const findUserByName = (name) => { 
     return users['users_list'].filter( (user) => user['name'] === name); 
 }
+
+const deleteUser = (user) => {
+    users['users_list'] = users['users_list'].filter(obj => obj.id !== user.id);
+  };
 
 //POST 
 app.post('/users', (req, res) => {
