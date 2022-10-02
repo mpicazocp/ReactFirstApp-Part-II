@@ -7,20 +7,14 @@ import React, {useState, useEffect} from 'react';
 
 function MyApp() {
   const [characters, setCharacters] = useState([]);
-  
 
-  function removeOneCharacter (index) {
-      const updated = characters.filter((character, i) => {
-          return i !== index
-        });
-        setCharacters(updated);
-  }
-  function updateList(person) { 
-    makePostCall(person).then( result => {
-    if (result && result.status === 200)
-       setCharacters([...characters, person] );
-    });
- }
+  useEffect(() => {
+    fetchAll().then( result => {
+       if (result)
+          setCharacters(result);
+     });
+  }, [] );
+
   async function fetchAll(){
     try {
         const response = await axios.get('http://localhost:5000/users');
@@ -31,7 +25,7 @@ function MyApp() {
         console.log(error); 
         return false;         
     }
-  }
+  };
 
   async function makePostCall(person){
     try {
@@ -42,22 +36,51 @@ function MyApp() {
        console.log(error);
        return false;
     }
- }
+ };
 
-  useEffect(() => {
-    fetchAll().then( result => {
-       if (result)
-          setCharacters(result);
-     });
-  }, [] );
+ const makeDeleteCall = async (id) => {
+  try {
+    const result = await axios.delete(`http://localhost:5000/users/${id}`);
+    return result
+  }
+  catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
+const deleteCharacter = (id) => {
+  makeDeleteCall(id).then(result => {
+    if (result && result.status === 204) {
+      removeOneCharacterByID(id);
+    }
+  });
+};
+  
+  const updateList = (person) => {
+    makePostCall(person).then( result => {
+      if (result && result.status === 201){
+        setCharacters([...characters, result.data] );
+      }
+    });
+ };
+
+ const removeOneCharacterByID = (id) =>{
+  const updated = characters.filter(character => {
+    return id !== character.id;
+  });
+    setCharacters(updated);
+};
+ 
+
+  
   return (
       <div className="container">
-        <Table characterData={characters} removeCharacter={removeOneCharacter} />
+        <Table characterData={characters} removeCharacter={deleteCharacter} />
         <Form handleSubmit={updateList} />
       </div>
       
-  )
+  );
     
 }
 
