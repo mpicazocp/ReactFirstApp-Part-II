@@ -27,9 +27,10 @@ app.get('/users', (req, res) => {
 });
 
 app.delete('/users/:id', (req, res) => {
-    const id = req.query.id;
+    const id = req.params.id;
     let result = removeUserByID(id);
-    console.log("backend id: %s", id);
+    //console.log("backend id: %s", id);
+    //console.log(req.params);
     if( id == undefined || result.length == 0 || result == undefined) {
         res.status(404).send('Resource not found.');
     } else{
