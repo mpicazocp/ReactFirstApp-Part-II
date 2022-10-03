@@ -26,10 +26,10 @@ app.get('/users', (req, res) => {
     }
 });
 
-app.delete('/users', (req, res) => {
+app.delete('/users/:id', (req, res) => {
     const id = req.query.id;
     let result = removeUserByID(id);
-    console.log("result: %s", result);
+    console.log("backend id: %s", id);
     if( id == undefined || result.length == 0 || result == undefined) {
         res.status(404).send('Resource not found.');
     } else{
@@ -47,7 +47,7 @@ app.get('/users/:id', (req, res) => {
         res.status(404).send('Resource not found.');
     else {
         result = {users_list: result};
-        res.send(result);
+        res.status(201).send(result);
     }
 });
 
