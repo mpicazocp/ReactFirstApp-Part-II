@@ -29,9 +29,10 @@ app.get('/users', (req, res) => {
 app.delete('/users', (req, res) => {
     const id = req.query.id;
     let result = removeUserByID(id);
+    console.log("result: %s", result);
     if( id == undefined || result.length == 0 || result == undefined) {
         res.status(404).send('Resource not found.');
-    } else if(id != undefined){
+    } else{
         deleteUser(result);
         res.status(204).end();
     }
@@ -57,11 +58,14 @@ function findUserByNameAndJob(name, job){
 }
 
 function removeUserByID(id){
-    return users['users_list'].filter( (user) => !(user['name'] === id)); 
+    return users['users_list'].filter( (user) => !(user['id'] === id)); 
 }
 
 function findUserById(id) {
-    return users['users_list'].find( (user) => user['id'] === id); // or line below
+    
+    return users['users_list'].find( (user) => user['id'] === id);
+
+    // or line below
     //return users['users_list'].filter( (user) => user['id'] === id);
 }
 
