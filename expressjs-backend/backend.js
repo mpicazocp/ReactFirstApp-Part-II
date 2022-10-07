@@ -28,7 +28,10 @@ app.get('/users', (req, res) => {
 
 app.delete('/users/:id', (req, res) => {
     const id = req.params.id;
-    let result = removeUserByID(id);
+    //console.log("ID: " + id);
+
+    let result = findUserById(id.toString());
+    //console.log(JSON.stringify(result));
     //console.log("backend id: %s", id);
     //console.log(req.params);
     if( id == undefined || result.length == 0 || result == undefined) {
@@ -81,7 +84,7 @@ const deleteUser = (user) => {
 //POST 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
-    userToAdd.id = IDGen();
+    userToAdd.id = IDGen().toString();
     addUser(userToAdd);
     res.status(201).send(userToAdd);
 });
