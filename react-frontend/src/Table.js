@@ -27,10 +27,10 @@ function TableBody(props) {
       return (
         <tr key={index}>
         <td>{row.name}</td>
-        <td>{row.id}</td>
+        <td>{row._id}</td>
         <td>{row.job}</td>
         <td>
-            <button onClick={() => props.removeCharacter(row.id)}>Delete</button>
+            <button onClick={() => props.removeCharacter(row._id)}>Delete</button>
         </td>
         </tr>
       );

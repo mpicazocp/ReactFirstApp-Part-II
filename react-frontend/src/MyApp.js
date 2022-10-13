@@ -39,9 +39,11 @@ function MyApp() {
  };
 
  const makeDeleteCall = async (id) => {
+   //console.log("ID!!!:%s",id);
   try {
     const result = await axios.delete(`http://localhost:5000/users/${id}`);
-    return result
+    //const result = await axios.delete(`http://localhost:5000/users/` + id);
+    return result;
   }
   catch (error) {
     console.log(error);
@@ -50,10 +52,11 @@ function MyApp() {
 };
 
 const deleteCharacter = (id) => {
+  //console.log("ID2:%s",id);
   makeDeleteCall(id).then(result => {
-    if (result && result.status === 204) {
+    if (result && (result.status === 204)) {
       removeOneCharacterByID(id);
-    }
+    };
   });
 };
   
@@ -61,13 +64,13 @@ const deleteCharacter = (id) => {
     makePostCall(person).then( result => {
       if (result && result.status === 201){
         setCharacters([...characters, result.data] );
-      }
+      };
     });
  };
 
  const removeOneCharacterByID = (id) =>{
   const updated = characters.filter(character => {
-    return id !== character.id;
+    return id !== character._id;
   });
     setCharacters(updated);
 };
